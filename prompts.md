@@ -1,159 +1,117 @@
-# AI Coding Workflows course
-## Prompts
+# Inference at the Edge of Your IDE: prompts
 
-This file contains every prompt used in the course, along with short notes on when to run each one and what to check before you do. Keep it open as you follow along. The notes around each prompt matter as much as the prompts themselves.
+Every prompt used in the workshop, with a note on when to run it. Keep this file open as you follow along.
 
-> **Before you start:** the repo is organized into folders by lesson range (`Lessons_02-08`, `Lessons_09`, `Lessons_11-12`), each holding the project files as they should look during that stretch of the course. If you're following the course in order, you only need `Lessons_02-08`; the prompts below create everything that appears in the later folders.
+We build the same app, Prompt Pantry, in four setups so you can compare what each one gives you and what it asks of you. Prompts marked **TODO(verify)** depend on DeepSeek harness behavior that has not been tested yet (see [harness/README.md](harness/README.md)).
 
-### Lesson 2 in Claude Code
+> **Reset between runs.** After Stage 0, commit your project. Before each new run, discard the previous attempt with `git reset --hard && git clean -fd` so every setup starts from the same place. Keep your specs committed.
 
-Run this after entering the three spec files, to set up the project dependencies:
+## Stage 0: project setup
+
+Create a new folder for your project, copy `starter/specs/` into it as `specs/`, open it in your editor and start Claude Code in the terminal. Then run:
 
 ```
-Read @specs/tech-stack.md then create a requirements.txt and update the virtual environment from that.
+Read @specs/tech-stack.md. Scaffold the project in the current directory: a Vite React TypeScript app with React Router, Vitest, React Testing Library and jest-dom. Install the dependencies, remove the template demo content (keep index.html and the config files), and make sure `npm test` runs with no tests failing. Do not build any pages yet.
 ```
 
-### Lesson 3 in Claude Code
+Commit the result.
+
+## Stage 1: Claude Code, all cloud
+
+### 1a. One agent, one task at a time
+
 ```
 Look in @specs/mission.md and @specs/tech-stack.md for project details.
 Look at the @specs/roadmap.md and:
-- Implement each task one at a time from Phase 1 and Phase 2.
+- Implement each task one at a time from Phase 1, Phase 2 and Phase 3.
 
 Do not fix anything after the subagent. Do a review and provide a list of critical mistakes.
 ```
 
-### Lesson 4 in Claude Code
+### 1b. A fresh subagent per phase
+
 ```
 Look in @specs/mission.md and @specs/tech-stack.md for project details.
 Look at the @specs/roadmap.md and:
 - Implement Phase 1 using a **new spawned** @general subagent.
 - Implement Phase 2 using a **new spawned** @general subagent.
+- Implement Phase 3 using a **new spawned** @general subagent.
 
 Do not fix anything after the subagent. Do a review and provide a list of critical mistakes.
 ```
 
-### Lesson 5 in Claude Code
+### 1c. A cheaper model for the subagents
 
 ```
 Look in @specs/mission.md and @specs/tech-stack.md for project details.
 Look at the @specs/roadmap.md and:
 - Implement Phase 1 using a **new spawned** Haiku subagent.
 - Implement Phase 2 using a **new spawned** Haiku subagent.
+- Implement Phase 3 using a **new spawned** Haiku subagent.
 
 Do not fix anything after the subagent. Do a review and provide a list of critical mistakes.
 ```
 
-### Lesson 6 in OpenCode
+## Stage 2: DeepSeek harness and OpenRouter
 
-Configure OpenCode to use OpenRouter as a provider. Replace `YOUR-API-KEY` with the API key you created on OpenRouter. Don't share that key with anyone.
+### 2a. Connect OpenRouter
 
-```
-Set up OpenCode to use OpenRouter as a provider with an API Key of YOUR-API-KEY
-```
+Follow [harness/README.md](harness/README.md) to add OpenRouter as a custom provider with only the two models used in the workshop: DeepSeek V4 Pro and DeepSeek V4 Flash. Create your OpenRouter API key first, and do not share it with anyone.
 
-Then trim the model list down to the two models used in this course:
+### 2b. One agent, one task at a time
 
-```
-Edit the global OpenCode configuration file to have the following:
-- Only list DeepSeek v4 Pro and DeepSeek v4 Flash as OpenRouter models
-- Don't list any OpenCode provider models
-- Set medium reasoning for both
-```
-
-### Lesson 7 in OpenCode
+Select DeepSeek V4 Pro for the main agent, then run the same prompt as 1a:
 
 ```
 Look in @specs/mission.md and @specs/tech-stack.md for project details.
 Look at the @specs/roadmap.md and:
-- Implement each task one at a time from Phase 1 and Phase 2
+- Implement each task one at a time from Phase 1, Phase 2 and Phase 3.
 
 Do not fix anything after the subagent. Do a review and provide a list of critical mistakes.
 ```
 
-### Lesson 8 in OpenCode
+### 2c. Subagents on a cheaper model
+
+**TODO(verify):** how the harness picks the model for a subagent. The prompt below assumes model selection is enabled for the DeepSeek V4 Flash route.
 
 ```
 Look in @specs/mission.md and @specs/tech-stack.md for project details.
 Look at the @specs/roadmap.md and:
-- Implement Phase 1 using a **new spawned** general subagent.
-- Implement Phase 2 using a **new spawned** general subagent.
-
+- Implement Phase 1 using a **new spawned** subagent running the DeepSeek V4 Flash model.
+- Implement Phase 2 using a **new spawned** subagent running the DeepSeek V4 Flash model.
+- Implement Phase 3 using a **new spawned** subagent running the DeepSeek V4 Flash model.
 
 Do not fix anything after the subagent. Do a review and provide a list of critical mistakes.
 ```
 
-### Lesson 9 in OpenCode
+## Stage 3: hybrid, a local subagent
 
-Lesson 9 uses two prompts. First, create the `implementer` subagent. (The `Lessons_09` folder already contains the finished file, so if you're working from that folder, delete `.opencode/agents/implementer.md` before running this prompt and let it recreate the file.)
+### 3a. Connect a local model
 
-```
-Create an "implementer" subagent:
-- This subagent should use an openrouter/deepseek/deepseek-v4-flash model
-- The main goal of this agent is to generate code and implement tasks delegated to it
-```
+Start your local runtime, load a small model that supports tool calls, and add it to the harness as a custom provider. See "Add a local model server" in [harness/README.md](harness/README.md). Check the base URL and model ID in your runtime and swap in yours.
 
-Then run the implementation prompt:
+### 3b. Cloud main agent, local implementer
 
-```
-Look in @specs/mission.md and @specs/tech-stack.md for project details.
-Look at the @specs/roadmap.md and:
-- Generate Phase 1 spec for the implementer subagent with task list
-- Spawn one new implementer subagent at a time and delegate implementation of each task in Phase 1 spec list. New @implementer subagent to each task.
+Keep DeepSeek V4 Flash on OpenRouter as the main agent and make the local model the only route available to subagents. Local models do best with small, well-bounded jobs, so this prompt runs **one phase per run**. Send it three times: as written, then with "Run only Phase 1" changed to "Run only Phase 2", then to "Run only Phase 3".
 
-Then do the same steps for Phase 2.
-- Do not write the full code file for/instead of subagents, only suggest snippets.
-- Do not make fixes after subagents.
-- Do a review and provide a list of critical mistakes.
-```
-
-
-### Lesson 10 in OpenCode
-
-Connect OpenCode to your local LM Studio server. The URL below is LM Studio's default, and the model ID matches the Mac (MLX) build. Check both in LM Studio's Developer tab and swap in yours if they differ (Windows/Linux GGUF builds have a different model ID).
-
-```
-Set up OpenCode to use the local LM Studio hosted model 'gemma-4-12b-it-mlx' available at http://127.0.0.1:1234
-
-add it to the models list in the global OpenCode configuration file
-```
-
-### Lesson 11 in OpenCode
-
-First, split the roadmap so each phase is small enough for the local implementer model. (The roadmap in the `Lessons_11-12` folder already has this split, so skip this prompt if you started from that folder.)
-
-```
-Edit the @specs/roadmap.md Phase 2 and move the work for the add complaint form, starting at "A form at the bottom with,", into a new Phase 3. Make sure Phase 2 and 3 have validation tests.
-```
-
-Also switch your implementer subagent to the local model. The updated `implementer.md` is in the course repo at `Lessons_11-12/.opencode/agents/implementer.md`. Copy it over yours. Note it references the Mac (MLX) Gemma model ID and a Mac/Linux-style `.venv/bin/python` test command; on Windows, adjust to your model ID and `.venv\Scripts\python`.
-
-Then run the implementation prompt below. It handles **one phase per run**, so you'll send it three times: first as written, then with "Run only Phase 1" changed to "Run only Phase 2", then changed again to "Run only Phase 3".
+**TODO(verify):** the exact tool names in the harness. The prompt asks for whole-file writes because small local models often fail at partial edits.
 
 ```
 Read @specs/mission.md, @specs/tech-stack.md, and @specs/roadmap.md. Run only Phase 1.
 
-Read the phase's target files, then delegate this phase exactly once to a fresh `@implementer` subagent with a compact, self-contained packet: repo-relative writable paths, complete required final state, and exact behavior/tests to preserve. Do not refer the child to specification files or include file contents. Do not provide complete files, complete functions, code blocks, pseudocode, or line-by-line implementations. Include exact literals, imports, route signatures, API constraints, test semantics, and preserved behavior when they are contract requirements.
+Read the phase's target files, then delegate this phase exactly once to a fresh subagent running the local model, with a compact, self-contained packet: repo-relative writable paths, complete required final state, and exact behavior and tests to preserve. Do not refer the child to specification files or include file contents. Do not provide complete files, complete functions, code blocks, pseudocode, or line-by-line implementations. Include exact literals, imports, component props, route paths, test semantics, and preserved behavior when they are contract requirements.
 
-Include this exact instruction: "For every writable file, use `write` with its complete final content; never use `edit`." Do not modify phase files or use another agent.
+Include this exact instruction: "For every writable file, write its complete final content; never make partial edits."
 
-Tell the child this is its final tool call and it must stop whether it passes or fails: `.venv/bin/python -m pytest tests/`.
+Tell the child this is its final tool call and it must stop whether it passes or fails: `npm test`.
 
-After it returns, use only `read` on the reported changed files. Do not use Bash, glob, task, edit, or write. Report the exact validation result, files changed, and only critical contract violations: missing required strings, routes, imports, or unexpected files.
+After it returns, only read the reported changed files. Do not run shell commands or edit anything yourself. Report the exact validation result, files changed, and only critical contract violations: missing required strings, components, props, routes, imports, or unexpected files.
 ```
 
-### Lesson 12 in OpenCode
+If the review reports issues, tell the main agent to send the fixes back to the subagent, for example: `Have the subagent fix <the reported issue>`.
 
-Lesson 12 continues from Lesson 11's setup: the split three-phase roadmap and the local implementer. If you're jumping in here, start from the `Lessons_11-12` folder, which has both in place.
+## Stage 4: fully local
 
-Connect OpenCode to the Qwen model in LM Studio. As in Lesson 10, the URL below is LM Studio's default and the model ID matches the Mac (MLX) build. Check both in LM Studio's Developer tab and swap in yours if they differ (Windows/Linux GGUF builds have a different model ID).
+Add a larger local model (one that handles tool calls reliably) as a second local route, then make it the **main agent** as well. Reuse the Stage 3b prompt, phase by phase, exactly as before.
 
-```
-Set up OpenCode to use the local LM Studio hosted model 'qwen3.5-27b-ud-mlx' available at http://127.0.0.1:1234
-
-Add it to the models list in the global OpenCode configuration file.
-```
-
-For the implementation, reuse the **Lesson 11 implementation prompt**, phase by phase, exactly as before.
-
-If the review reports issues, tell the main agent to send the fixes back to the subagent, e.g. `Have the @implementer fix <the reported issue>`.
-
+Expect some potholes. They are part of the comparison.

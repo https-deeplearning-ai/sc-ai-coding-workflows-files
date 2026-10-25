@@ -1,52 +1,30 @@
-# AI Coding Workflows: From Cloud to Local
+# Inference at the Edge of Your IDE
 
-This repository contains the companion files for the DeepLearning.AI AI Coding Workflows course. It includes the project specifications, Python dependencies, and custom implementer-agent configuration you'll use to build a simple Python web app throughout the course.
+Companion files for the workshop *Inference at the Edge of Your IDE: Agentic React Development from Cloud LLMs to On-Device Models*.
 
-## Other DeepLearning.AI Resources
-> :mortar_board: **Keep learning** → [Explore all DeepLearning.AI courses](https://www.deeplearning.ai/courses/) — taught by the people building the future of AI. Find your next one.
->
-> :computer: **Explore more course artifacts** → [Browse the DeepLearning.AI course artifacts repo](https://github.com/https-deeplearning-ai/deeplearning-ai) to find notebooks, projects, and notes from other courses across the DeepLearning.AI library.
+Across the workshop you build the same small React app, Prompt Pantry, in four different AI coding setups: Claude Code in the cloud, the DeepSeek harness with OpenRouter models, a hybrid with a local subagent, and fully local. Keeping the app the same lets you compare what each setup gives you and what it asks of you.
+
+This repository is adapted from the files of the DeepLearning.AI course *AI Coding Workflows: From Cloud to Local* ([original repository](https://github.com/https-deeplearning-ai/sc-ai-coding-workflows-files)). The app, specs, prompts and tooling here are changed for this workshop.
 
 ## How to use this repo
 
-The simplest way to take this course is to follow the videos in order, using the same project throughout. During setup in Lesson 2, you'll create your own project and copy in the starting files from `Lessons_02-08`. From there, the course itself walks you through every change that appears in the later folders, so you won't need to copy anything else.
-
-The repo is organized into three folders. Each holds the project files as they should look during that stretch of the course:
-
-| Folder | Contents |
-|---|---|
-| `Lessons_02-08` | The starting files: project specs and Python dependencies |
-| `Lessons_09` | Adds the implementer subagent configuration created in Lesson 9 |
-| `Lessons_11-12` | The three-phase roadmap and the local-model implementer from Lesson 11 |
-
-The later folders are there so you can jump into the course partway through, or check your own files against a known-good state.
-
-A few notes:
-
-- The `Lessons_09` folder already contains the implementer file that Lesson 9 teaches you to create. If you're working from that folder while following Lesson 9 itself, delete `.opencode/agents/implementer.md` first and let the lesson's prompt create it. If you're jumping in after Lesson 9, keep it as is.
-- Likewise, the roadmap in `Lessons_11-12` already has the Phase 3 split that Lesson 11 has you make, so skip the roadmap-split prompt if you start from that folder.
-- The course was recorded on a Mac, so the local-model references in the implementer configuration and prompts use Mac values: MLX model builds and the `.venv/bin/python` test command. On Windows or Linux, substitute your GGUF model ID from LM Studio and `.venv\Scripts\python`.
-
-All prompts used in the course are collected in [prompts.md](prompts.md), so you can copy them rather than typing them from the videos.
-
-## Project files
+You do not work inside this repo. Create a project folder of your own, copy `starter/specs/` into it as `specs/`, and follow [prompts.md](prompts.md) from Stage 0.
 
 | Path | Purpose |
 |---|---|
-| `prompts.md` | Every prompt used in the course, with notes on when and how to run each one. Keep this file open while you follow along |
-| `specs/mission.md` (in each folder) | Describes the app, its purpose, and the experience it should provide |
-| `specs/tech-stack.md` (in each folder) | Records the required technologies and implementation constraints |
-| `specs/roadmap.md` (in each folder) | Breaks the app into phases that coding agents can plan and implement |
-| `.opencode/agents/implementer.md` | Defines the custom implementer subagent (in `Lessons_09` and `Lessons_11-12` only) |
-| `requirements.txt` (in each folder) | Lists the Python packages required by the project |
-| `.gitignore` | Excludes virtual environments, Python cache files, local configuration, and editor files from Git |
+| `starter/specs/mission.md` | Describes the app, its purpose and the experience it should provide |
+| `starter/specs/tech-stack.md` | Records the required technologies and constraints |
+| `starter/specs/roadmap.md` | Breaks the app into three phases that coding agents can plan and implement |
+| `prompts.md` | Every prompt used in the workshop, with notes on when to run each one |
+| `harness/README.md` | Draft notes for connecting the DeepSeek harness to OpenRouter and local models, and for subagent models |
+| `.gitignore` | Excludes `node_modules`, build output, local env files and editor files |
 
 ## Prerequisites
 
-- [Python 3.11 or later](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads/)
-- An IDE or editor: the course uses [PyCharm](https://www.jetbrains.com/pycharm/download/)
+- [Node.js](https://nodejs.org/) (current LTS)
+- An editor: [Orca](https://www.onorca.dev/) or [VS Code](https://code.visualstudio.com/download)
 - [Claude Code](https://code.claude.com/docs/en/getting-started)
-- [OpenCode](https://opencode.ai/docs/)
-- An [OpenRouter](https://openrouter.ai/docs/quickstart) account
-- [LM Studio](https://lmstudio.ai/download)
+- The [DeepSeek harness](https://www.deepseek.com/en/harness/)
+- An [OpenRouter](https://openrouter.ai/docs/quickstart) account and API key
+- Later, for the local stages: a local model runtime (to be decided)

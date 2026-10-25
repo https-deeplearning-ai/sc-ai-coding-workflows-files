@@ -1,2 +1,0 @@
-fastapi[standard]==0.115.10
-pytest==8.3.4

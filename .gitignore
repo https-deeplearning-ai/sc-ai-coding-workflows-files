@@ -1,29 +1,18 @@
-# Virtual environment
-# specs/tech-stack.md requires a venv; .opencode/agents/implementer.md
-# runs tests via `.venv/bin/python -m pytest tests/`
-.venv/
-venv/
-env/
-
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.pytest_cache/
+# Node
+node_modules/
+dist/
+coverage/
+*.log
 
 # Secrets and local model/server config
 .env
 .env.local
+.env.*.local
 
-# IDEs (this course is taught in JetBrains IDEs)
+# Editors
 .idea/
-.vscode/
 
 # OS
 .DS_Store
 **/.DS_Store
 Thumbs.db
-
-# Internal course material -- keep out of this public repo
-*Lesson Scripts*.md
-scripts.md
